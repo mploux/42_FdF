@@ -6,22 +6,21 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/18 14:10:33 by mploux            #+#    #+#             */
-/*   Updated: 2016/12/14 21:32:13 by mploux           ###   ########.fr       */
+/*   Updated: 2017/05/03 16:50:12 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+# include <SDL.h>
 # include <stdlib.h>
 # include <string.h>
-# include "input.h"
-# include "mlx.h"
 # include "libft.h"
 # include "maths.h"
 # include "graphics.h"
 
-# define KEY_SIZE 1024
+# define KEY_SIZE 284
 # define BUTTON_SIZE 6
 
 typedef struct s_mesh		t_mesh;
@@ -36,7 +35,6 @@ typedef struct	s_scanline
 
 typedef struct	s_win
 {
-	void		*ctx;
 	int			w;
 	int			h;
 	char		*name;
@@ -69,7 +67,8 @@ typedef struct	s_camera
 
 typedef struct	s_data
 {
-	void		*mlx;
+	SDL_Window	*sdl_win;
+	SDL_Surface	*sdl_surface;
 	t_win		*win;
 	t_input		*input;
 	t_camera	*camera;
@@ -88,16 +87,18 @@ typedef struct	s_data
 }				t_data;
 
 int				error(char *error);
-int				create_fdf(t_data *data, const char *name, int width,
-																	int height);
+void			new_sdl_display(t_data *data, const char *title, int width, int height);
+int				create_fdf(t_data *data, const char *name, int width, int height);
+void			sdl_loop(t_data *data, int (*loop)(t_data *));
 void			loop_fdf(t_data *data, t_mesh *mesh);
 void			exit_fdf(t_data *data);
 t_mesh			*load_mesh(t_data *data, char *file);
 void			load_colors(t_data *data, char *file);
 void			col_input(t_data *data, t_input *input);
-void			mlx_input_hook(t_data *data);
-t_input			*new_input();
-int				key_hook(int key, t_data *input);
-int				key_up_hook(int key, t_data *input);
+void			init_inputs(t_data *data);
+void			handle_events(t_data *data, SDL_Event *event);
+void			update_keys_down(int key, t_data *data);
+void			update_keys_up(int key, t_data *data);
+int				get_key(t_input *input, int key);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mploux <mploux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/18 16:57:52 by mploux            #+#    #+#             */
-/*   Updated: 2016/12/14 21:30:20 by mploux           ###   ########.fr       */
+/*   Updated: 2017/05/03 15:20:56 by mploux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ typedef struct s_input		t_input;
 
 typedef struct	s_bitmap
 {
-	t_data		*data;
-	void		*ctx;
-	int			width;
-	int			height;
-	char		*pixels;
-	int			bpp;
-	int			sl;
-	int			endian;
+	t_data			*data;
+	SDL_Renderer	*sdl_renderer;
+	SDL_Texture		*sdl_texture;
+	int				width;
+	int				height;
+	int				*pixels;
 }				t_bitmap;
 
 typedef struct	s_vertex
@@ -72,6 +70,7 @@ void			clear_scanline(t_data *data, t_scanline **scan);
 t_bitmap		*new_bitmap(t_data *data, int width, int height);
 void			bitmap_draw_pix(t_bitmap *b, int x, int y, int color);
 void			clear_bitmap(t_bitmap *b);
+void			bitmap_update(t_bitmap *b);
 t_vertex		vertex(t_data *data, t_vec3 pos, int color);
 int				vertex_transform(t_data *data, t_vertex *vert, t_mat4 trs);
 int				in_view_frustum(t_vertex *v);
