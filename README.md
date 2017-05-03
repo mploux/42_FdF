@@ -1,4 +1,4 @@
-# 42_FdF - Projet 42
+# 42_FdF - 42 Project
 The "File de Fer" or FdF project is individual and is part of the 42 school cursus.
 
 It's a simple rasterizer made from scratch:
